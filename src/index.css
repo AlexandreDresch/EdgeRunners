@@ -11,11 +11,11 @@ body {
     --font-tomorrow: "Tomorrow", sans-serif;
     --font-barlow: "Barlow", sans-serif;
 
-    --color-aureolin: #F8EF00;
-    --color-bright-aqua: #00F0FF;
-    --color-art-click-red: #FF003C;
-    --color-alabaster: #FAFAFA;
-    --color-neutral: #BBBBBB;
+    --color-aureolin: #f8ef00;
+    --color-bright-aqua: #00f0ff;
+    --color-art-click-red: #ff003c;
+    --color-alabaster: #fafafa;
+    --color-neutral: #bbbbbb;
   }
 }
 
@@ -30,5 +30,13 @@ body {
 
   .mask-clip-path {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .hero-heading {
+    @apply uppercase font-tomorrow font-black text-3xl sm:right-10 sm:text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  .special-font b {
+    font-feature-settings: "ss01" on;
   }
 }
