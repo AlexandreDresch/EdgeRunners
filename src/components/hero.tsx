@@ -1,6 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "./button";
 import { TiLocationArrow } from "react-icons/ti";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import LoadingScreen from "./loading-screen";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -10,7 +16,7 @@ export default function Hero() {
 
   const totalVideos = 4;
 
-  const nextVideoRef = useRef(null);
+  const nextVideoRef = useRef<HTMLVideoElement | null>(null);
   const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
 
   const handleMiniVideoClick = () => {
@@ -23,12 +29,71 @@ export default function Hero() {
     setLoadedVideos((prevCount) => prevCount + 1);
   };
 
+  useEffect(() => {
+    if (loadedVideos === totalVideos - 1) {
+      setIsLoading(false);
+    }
+  }, [loadedVideos]);
+
+  useGSAP(
+    () => {
+      if (hasClicked) {
+        gsap.set("#next-video", { visibility: "visible" });
+
+        gsap.to("#next-video", {
+          transformOrigin: "center center",
+          scale: 1,
+          width: "100%",
+          height: "100%",
+          duration: 1,
+          ease: "power1.inOut",
+          onStart: () => {
+            if (nextVideoRef.current) nextVideoRef.current.play();
+          },
+        });
+
+        gsap.to("#current-video", {
+          transformOrigin: "center center",
+          scale: 0,
+          duration: 1.5,
+          ease: "power1.inOut",
+        });
+      }
+    },
+    { dependencies: [currentIndex], revertOnUpdate: true }
+  );
+
+  useGSAP(() => {
+    gsap.set("#video-frame", {
+      clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
+      borderRadius: "0% 0% 40% 10%",
+    });
+
+    gsap.from("#video-frame", {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      borderRadius: "0% 0% 0% 0%",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: "#video-frame",
+        start: "center center",
+        end: "bottom center",
+        scrub: true,
+      },
+    });
+  });
+
   const getVideoSrc = (index: number) => {
     return `videos/hero-${index}.mp4`;
   };
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
+      {isLoading && (
+        <div className="absolute z-[100] h-dvh w-screen overflow-hidden bg-black">
+          <LoadingScreen />
+        </div>
+      )}
+
       <div
         id="video-frame"
         className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-bright-aqua"
@@ -96,11 +161,10 @@ export default function Hero() {
             />
           </div>
         </div>
-
-        <h1 className="hero-heading special-font absolute bottom-5 right-5">
-          <b>E</b>dge<b>R</b>unners
-        </h1>
       </div>
+      <h1 className="hero-heading special-font absolute bottom-5 right-5 text-black">
+        <b>E</b>dge<b>R</b>unners
+      </h1>
     </div>
   );
 }
