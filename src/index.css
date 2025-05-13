@@ -33,7 +33,7 @@ body {
   }
 
   .hero-heading {
-    @apply uppercase font-tomorrow font-black text-3xl sm:right-10 sm:text-4xl md:text-5xl lg:text-6xl;
+    @apply uppercase font-tomorrow font-black text-3xl sm:right-10 sm:text-4xl md:text-5xl lg:text-7xl;
   }
 
   .special-font b {
@@ -41,9 +41,3 @@ body {
   }
 }
 
- .three-dots {
-    font-size:24px;
-    animation:rotate 1s linear infinite;
-    padding-top:9.5px;
-    height:fit;
-  }
