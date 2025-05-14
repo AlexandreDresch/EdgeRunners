@@ -1,74 +1,141 @@
-import { useEffect, useRef, useState } from "react";
-import Button from "./button";
-import { TiLocationArrow } from "react-icons/ti";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import LoadingScreen from "./loading-screen";
-import VideoPreview from "./video-preview";
+import { useEffect, useRef, useState } from "react"
+import Button from "./button"
+import { TiLocationArrow } from "react-icons/ti"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/all"
+import LoadingScreen from "./loading-screen"
+import VideoPreview from "./video-preview"
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Hero() {
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const [hasClicked, setHasClicked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadedVideos, setLoadedVideos] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadedVideos, setLoadedVideos] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
-  const totalVideos = 3;
+  const totalVideos = 3
 
-  const nextVideoRef = useRef<HTMLVideoElement | null>(null);
-  const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
+  const mainVideoRef = useRef<HTMLVideoElement | null>(null)
+  const previewVideoRef = useRef<HTMLVideoElement | null>(null)
+
+  const upcomingVideoIndex = (currentIndex % totalVideos) + 1
 
   const handleMiniVideoClick = () => {
-    setHasClicked(true);
+    if (isTransitioning) return
 
-    setCurrentIndex(upcomingVideoIndex);
-  };
+    setIsTransitioning(true)
+
+    const previewVideo = document.getElementById("preview-video") as HTMLVideoElement
+
+    if (!previewVideo) return
+
+    const transitionVideo = previewVideo.cloneNode(true) as HTMLVideoElement
+    transitionVideo.id = "transition-video"
+    transitionVideo.className = "absolute-center absolute z-30 size-64 object-cover object-center"
+    transitionVideo.play()
+
+    const videoFrame = document.getElementById("video-frame")
+    if (videoFrame) {
+      videoFrame.appendChild(transitionVideo)
+    }
+
+    gsap.to(transitionVideo, {
+      width: "100%",
+      height: "100%",
+      scale: 1,
+      duration: 1,
+      ease: "power2.inOut",
+      onComplete: () => {
+        if (mainVideoRef.current) {
+          mainVideoRef.current.src = getVideoSrc(upcomingVideoIndex)
+          mainVideoRef.current.load()
+          mainVideoRef.current.play()
+        }
+
+        if (videoFrame && transitionVideo) {
+          videoFrame.removeChild(transitionVideo)
+        }
+
+        setCurrentIndex(upcomingVideoIndex)
+
+        setTimeout(() => {
+          setIsTransitioning(false)
+        }, 100)
+      },
+    })
+
+    gsap.to(".preview-container", {
+      opacity: 0,
+      scale: 0.5,
+      duration: 0.5,
+      ease: "power2.inOut",
+    })
+  }
 
   const handleVideoLoad = () => {
-    setLoadedVideos((prevCount) => prevCount + 1);
-  };
+    setLoadedVideos((prev) => prev + 1)
+  }
 
   useEffect(() => {
-    if (loadedVideos === totalVideos - 1) {
-      setIsLoading(false);
-    }
-  }, [loadedVideos]);
-
-  useGSAP(
-    () => {
-      if (hasClicked) {
-        gsap.set("#next-video", { visibility: "visible" });
-
-        gsap.to("#next-video", {
-          transformOrigin: "center center",
-          scale: 1,
-          width: "100%",
-          height: "100%",
-          duration: 1,
-          ease: "power1.inOut",
-          onStart: () => {
-            if (nextVideoRef.current) nextVideoRef.current.play();
-          },
-        });
-
-        gsap.to("#current-video", {
-          transformOrigin: "center center",
-          scale: 0,
-          duration: 1.5,
-          ease: "power1.inOut",
-        });
+    const timer = setTimeout(() => {
+      if (isLoading) {
+        setIsLoading(false)
       }
-    },
-    { dependencies: [currentIndex], revertOnUpdate: true }
-  );
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [isLoading])
+
+  useEffect(() => {
+    if (loadedVideos >= 2) {
+      setIsLoading(false)
+    }
+  }, [loadedVideos])
+
+  useEffect(() => {
+    const preloadVideos = async () => {
+      const videoPromises = []
+
+      for (let i = 1; i <= totalVideos; i++) {
+        const videoSrc = getVideoSrc(i)
+        const promise = new Promise<void>((resolve) => {
+          const video = document.createElement("video")
+          video.src = videoSrc
+          video.muted = true
+          video.preload = "auto"
+
+          video.onloadeddata = () => {
+            setLoadedVideos((prev) => prev + 1)
+            resolve()
+          }
+
+          video.onerror = () => {
+            resolve()
+          }
+
+          video.load()
+        })
+
+        videoPromises.push(promise)
+      }
+
+      try {
+        await Promise.all(videoPromises)
+      } catch (error) {
+        console.error("Error preloading videos:", error)
+      }
+    }
+
+    preloadVideos()
+  }, [])
 
   useGSAP(() => {
     gsap.set("#video-frame", {
       clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
       borderRadius: "0% 0% 40% 10%",
-    });
+    })
 
     gsap.from("#video-frame", {
       clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
@@ -80,12 +147,30 @@ export default function Hero() {
         end: "bottom center",
         scrub: true,
       },
-    });
-  });
+    })
+  })
 
   const getVideoSrc = (index: number) => {
-    return `videos/hero-${index}.mp4`;
-  };
+    return `videos/hero-${index}.mp4`
+  }
+
+  useEffect(() => {
+    if (!isTransitioning) {
+      gsap.to(".preview-container", {
+        opacity: 1,
+        scale: 0.75,
+        duration: 0.5,
+        ease: "power2.inOut",
+      })
+
+      if (previewVideoRef.current) {
+        const nextPreviewIndex = (currentIndex % totalVideos) + 1
+        previewVideoRef.current.src = getVideoSrc(nextPreviewIndex)
+        previewVideoRef.current.load()
+        previewVideoRef.current.play()
+      }
+    }
+  }, [isTransitioning, currentIndex])
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
@@ -95,51 +180,39 @@ export default function Hero() {
         </div>
       )}
 
-      <div
-        id="video-frame"
-        className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-bright-aqua"
-      >
-        <div>
-          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
-            <VideoPreview>
-              <div
-                onClick={handleMiniVideoClick}
-                className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in-out hover:scale-100 hover:opacity-100"
-              >
-                <video
-                  ref={nextVideoRef}
-                  src={getVideoSrc(upcomingVideoIndex)}
-                  loop
-                  muted
-                  autoPlay
-                  id="current-video"
-                  className="size-64 origin-center scale-150 object-cover object-center"
-                  onLoadedData={handleVideoLoad}
-                />
-              </div>
-            </VideoPreview>
-          </div>
+      <div id="video-frame" className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-bright-aqua">
+        <video
+          ref={mainVideoRef}
+          src={getVideoSrc(currentIndex)}
+          autoPlay
+          loop
+          muted
+          playsInline
+          id="main-video"
+          className="absolute left-0 top-0 z-10 size-full object-cover object-center"
+          onLoadedData={handleVideoLoad}
+        />
 
-          <video
-            ref={nextVideoRef}
-            src={getVideoSrc(currentIndex)}
-            loop
-            muted
-            id="next-video"
-            className="absolute-center invisible absolute z-20 size-64 object-cover object-center"
-            onLoadedData={handleVideoLoad}
-          />
-
-          <video
-            src={getVideoSrc(
-              currentIndex === totalVideos - 1 ? 1 : currentIndex
-            )}
-            autoPlay
-            loop
-            muted
-            className="absolute left-0 top-0 size-full object-cover object-center"
-            onLoadedData={handleVideoLoad}
-          />
+        <div className="mask-clip-path absolute-center absolute z-50 size-72 cursor-pointer overflow-hidden rounded-lg transition-transform duration-300 opacity-0 hover:opacity-100">
+          <VideoPreview>
+            <div
+              onClick={handleMiniVideoClick}
+              className="preview-container origin-center transition-all duration-500 ease-in-out hover:scale-100 hover:opacity-100"
+              style={{ opacity: isTransitioning ? 0 : 1, transform: `scale(${isTransitioning ? 0.5 : 0.75})` }}
+            >
+              <video
+                ref={previewVideoRef}
+                src={getVideoSrc(upcomingVideoIndex)}
+                loop
+                muted
+                autoPlay
+                playsInline
+                id="preview-video"
+                className="size-64 origin-center scale-150 object-cover object-center"
+                onLoadedData={handleVideoLoad}
+              />
+            </div>
+          </VideoPreview>
         </div>
 
         <h1 className="hero-heading special-font absolute bottom-5 right-5 z-40 text-alabaster">
@@ -169,5 +242,5 @@ export default function Hero() {
         <b>E</b>dge<b>R</b>unners
       </h1>
     </div>
-  );
+  )
 }
