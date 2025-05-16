@@ -1,10 +1,57 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
 import Button from "./button";
 import { TiLocationArrow } from "react-icons/ti";
 import { navbarLinks } from "../utils/constants";
+import { useWindowScroll } from "react-use";
+import gsap from "gsap";
 
 export default function Navbar() {
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const [isIndicatorActive, setIsIndicatorActive] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+
   const navContainerRef = useRef<HTMLDivElement>(null);
+  const audioElementRef = useRef<HTMLAudioElement>(null);
+  const { y: scrollY } = useWindowScroll();
+
+  useEffect(() => {
+    if (scrollY === 0) {
+      setIsNavbarVisible(true);
+      navContainerRef.current?.classList.remove("floating-nav");
+    } else if (scrollY > lastScrollY) {
+      setIsNavbarVisible(false);
+      navContainerRef.current?.classList.add("floating-nav");
+    } else if (scrollY < lastScrollY) {
+      setIsNavbarVisible(true);
+      navContainerRef.current?.classList.add("floating-nav");
+    }
+
+    setLastScrollY(scrollY);
+  }, [scrollY, lastScrollY]);
+  useEffect(() => {
+    gsap.to(navContainerRef.current, {
+      y: isNavbarVisible ? 0 : -100,
+      opacity: isNavbarVisible ? 1 : 0,
+      duration: 0.2,
+    });
+  }, [isNavbarVisible]);
+
+  const toggleAudio = () => {
+    if (audioElementRef.current) {
+      if (isAudioPlaying) {
+        audioElementRef.current.pause();
+        setIsAudioPlaying(false);
+        setIsIndicatorActive(false);
+      } else {
+        audioElementRef.current.play();
+        setIsAudioPlaying(true);
+        setIsIndicatorActive(true);
+      }
+    }
+  };
+
   return (
     <div
       ref={navContainerRef}
@@ -32,15 +79,34 @@ export default function Navbar() {
           <div className="flex h-full items-center">
             <div className="hidden md:block">
               {navbarLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.path}
-                  className="nav-hover-btn"
-                >
+                <a key={index} href={link.path} className="nav-hover-btn">
                   {link.name}
                 </a>
               ))}
             </div>
+
+            <button
+              className="ml-10 flex items-center space-x-0.5 cursor-pointer"
+              onClick={toggleAudio}
+            >
+              <audio
+                ref={audioElementRef}
+                className="hidden"
+                src="/audio/whos-ready-for-tomorrow-extended.mp3"
+                loop
+              ></audio>
+              {[1, 2, 3, 4].map((bar) => (
+                <div
+                  key={bar}
+                  className={clsx("indicator-line", {
+                    active: isIndicatorActive,
+                  })}
+                  style={{
+                    animationDelay: `${bar * 0.1}s`,
+                  }}
+                />
+              ))}
+            </button>
           </div>
         </nav>
       </header>
