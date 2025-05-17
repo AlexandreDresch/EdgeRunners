@@ -4,6 +4,7 @@ interface ButtonProps {
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   containerClass?: string;
+  onClick?: () => void;
 }
 
 export default function Button({
@@ -12,11 +13,13 @@ export default function Button({
   containerClass,
   leftIcon,
   rightIcon,
+  onClick,
 }: ButtonProps) {
   return (
     <button
       id={id}
       className={`group relative z-10 w-fit cursor-pointer overflow-hidden rounded-lg bg-violet-50 px-7 py-3 text-black ${containerClass}`}
+      onClick={onClick}
     >
       {leftIcon && (
         <span className="absolute left-2 top-1/2 -translate-y-1/2 transform transition-transform duration-300 group-hover:translate-x-0">

@@ -52,6 +52,14 @@ export default function Navbar() {
     }
   };
 
+  function handleSmoothScroll(path: string) {
+    const id = path.startsWith("#") ? path.slice(1) : path;
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+  
   return (
     <div
       ref={navContainerRef}
@@ -73,13 +81,30 @@ export default function Navbar() {
               title="Characters"
               rightIcon={<TiLocationArrow />}
               containerClass="bg-white md:flex hidden items-center justify-center gap-1"
+              onClick={() => {
+                const element = document.getElementById("characters");
+                if (element) {
+                  element.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }
+              }}
             />
           </div>
 
           <div className="flex h-full items-center">
             <div className="hidden md:block">
               {navbarLinks.map((link, index) => (
-                <a key={index} href={link.path} className="nav-hover-btn">
+                <a
+                  key={index}
+                  href={link.path}
+                  className="nav-hover-btn"
+                  onClick={e => {
+                  e.preventDefault();
+                  handleSmoothScroll(link.path);
+                  }}
+                >
                   {link.name}
                 </a>
               ))}
