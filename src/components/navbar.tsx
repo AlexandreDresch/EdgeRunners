@@ -59,7 +59,7 @@ export default function Navbar() {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
-  
+
   return (
     <div
       ref={navContainerRef}
@@ -82,13 +82,7 @@ export default function Navbar() {
               rightIcon={<TiLocationArrow />}
               containerClass="bg-white md:flex hidden items-center justify-center gap-1"
               onClick={() => {
-                const element = document.getElementById("characters");
-                if (element) {
-                  element.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }
+                handleSmoothScroll("#characters");
               }}
             />
           </div>
@@ -100,9 +94,9 @@ export default function Navbar() {
                   key={index}
                   href={link.path}
                   className="nav-hover-btn"
-                  onClick={e => {
-                  e.preventDefault();
-                  handleSmoothScroll(link.path);
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSmoothScroll(link.path);
                   }}
                 >
                   {link.name}
