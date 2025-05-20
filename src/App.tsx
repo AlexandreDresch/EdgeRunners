@@ -1,3 +1,4 @@
+import Characters from "./components/characters";
 import Hero from "./components/hero";
 import Navbar from "./components/navbar";
 import NightCity from "./components/night-city";
@@ -8,6 +9,7 @@ function App() {
       <Navbar />
       <Hero />
       <NightCity />
+      <Characters />
     </main>
   );
 }
