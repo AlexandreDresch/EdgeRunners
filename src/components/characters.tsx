@@ -67,6 +67,18 @@ export default function Characters() {
                 description="Maine, the leader of David's crew, is a seasoned edgerunner with a strong sense of loyalty and responsibility. He is known for his combat prowess and protective nature towards his team. Maine's character embodies the struggles of survival in Night City while trying to keep his crew safe."
               />
             </div>
+
+            <div className="bento-tilt_1 row-span-1 md:col-span-1  border-hsla">
+              <BentoCard
+                src="/images/characters/dorio.png"
+                title={
+                  <>
+                    <b>D</b>orio
+                  </>
+                }
+                description="Dorio, a skilled and enigmatic member of David's crew, is known for her combat abilities and strategic mind. She often serves as a mentor to the younger members of the team, guiding them through the dangers of their lifestyle. Her loyalty to Maine and the crew is unwavering."
+              />
+            </div>
           </div>
         </div>
       </div>
