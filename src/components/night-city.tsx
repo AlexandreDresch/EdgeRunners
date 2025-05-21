@@ -1,12 +1,42 @@
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 import gsap from "gsap";
+import { useRef } from "react";
 import AnimatedTitle from "./animated-title";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function NightCity() {
+  const imageRef = useRef<HTMLDivElement>(null);
+
   useGSAP(() => {
+    gsap.set(imageRef.current, {
+      transformOrigin: "center center",
+      rotationY: -15,
+      rotationX: 10,
+      skewX: -5,
+      skewY: -3,
+      scale: 1.1,
+    });
+
+    const mainTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#clip",
+        start: "top bottom",
+        end: "center center",
+        scrub: 0.5,
+      },
+    });
+
+    mainTimeline.to(imageRef.current, {
+      rotationY: 0,
+      rotationX: 0,
+      skewX: 0,
+      skewY: 0,
+      scale: 1,
+      ease: "power1.inOut",
+    });
+
     const clipAnimation = gsap.timeline({
       scrollTrigger: {
         trigger: "#clip",
@@ -23,7 +53,7 @@ export default function NightCity() {
       height: "100vh",
       borderRadius: 0,
     });
-  });
+  }, []);
 
   return (
     <div id="night-city" className="min-h-screen w-screen">
@@ -50,12 +80,17 @@ export default function NightCity() {
       </div>
 
       <div className="h-dvh w-screen" id="clip">
-        <div className="mask-clip-path about-image">
-          <img
-            src="/images/night-city.jpg"
-            alt="Night City"
-            className="absolute left-0 top-0 size-full object-cover"
-          />
+        <div
+          className="mask-clip-path about-image overflow-hidden"
+          style={{ perspective: "1000px" }}
+        >
+          <div ref={imageRef} className="size-full">
+            <img
+              src="/images/night-city.jpg"
+              alt="Night City"
+              className="absolute left-0 top-0 size-full object-cover"
+            />
+          </div>
         </div>
       </div>
     </div>
