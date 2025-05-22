@@ -1,8 +1,9 @@
-import Characters from "./components/characters";
-import Hero from "./components/hero";
+import Characters from "./components/sections/characters";
+import Hero from "./components/sections/hero";
 import Navbar from "./components/navbar";
-import NightCity from "./components/night-city";
+import NightCity from "./components/sections/night-city";
 import Arasaka from "./components/sections/arasaka";
+import News from "./components/sections/news";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <NightCity />
       <Characters />
       <Arasaka />
+      <News />
     </main>
   );
 }

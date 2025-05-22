@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 body {
-  @apply bg-[#dfdff0] w-dvh font-tomorrow overflow-x-hidden;
+  @apply bg-[#dfdff0] font-tomorrow overflow-x-hidden;
 }
 
 @layer base {

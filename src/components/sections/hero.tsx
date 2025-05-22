@@ -1,44 +1,47 @@
-import { useEffect, useRef, useState } from "react"
-import Button from "./button"
-import { TiLocationArrow } from "react-icons/ti"
-import { useGSAP } from "@gsap/react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/all"
-import LoadingScreen from "./loading-screen"
-import VideoPreview from "./video-preview"
+import { useEffect, useRef, useState } from "react";
+import Button from "../button";
+import { TiLocationArrow } from "react-icons/ti";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
+import LoadingScreen from "../loading-screen";
+import VideoPreview from "../video-preview";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
-  const [currentIndex, setCurrentIndex] = useState(1)
-  const [isLoading, setIsLoading] = useState(true)
-  const [loadedVideos, setLoadedVideos] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedVideos, setLoadedVideos] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const totalVideos = 3
+  const totalVideos = 3;
 
-  const mainVideoRef = useRef<HTMLVideoElement | null>(null)
-  const previewVideoRef = useRef<HTMLVideoElement | null>(null)
+  const mainVideoRef = useRef<HTMLVideoElement | null>(null);
+  const previewVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  const upcomingVideoIndex = (currentIndex % totalVideos) + 1
+  const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
 
   const handleMiniVideoClick = () => {
-    if (isTransitioning) return
+    if (isTransitioning) return;
 
-    setIsTransitioning(true)
+    setIsTransitioning(true);
 
-    const previewVideo = document.getElementById("preview-video") as HTMLVideoElement
+    const previewVideo = document.getElementById(
+      "preview-video"
+    ) as HTMLVideoElement;
 
-    if (!previewVideo) return
+    if (!previewVideo) return;
 
-    const transitionVideo = previewVideo.cloneNode(true) as HTMLVideoElement
-    transitionVideo.id = "transition-video"
-    transitionVideo.className = "absolute-center absolute z-30 size-64 object-cover object-center"
-    transitionVideo.play()
+    const transitionVideo = previewVideo.cloneNode(true) as HTMLVideoElement;
+    transitionVideo.id = "transition-video";
+    transitionVideo.className =
+      "absolute-center absolute z-30 size-64 object-cover object-center";
+    transitionVideo.play();
 
-    const videoFrame = document.getElementById("video-frame")
+    const videoFrame = document.getElementById("video-frame");
     if (videoFrame) {
-      videoFrame.appendChild(transitionVideo)
+      videoFrame.appendChild(transitionVideo);
     }
 
     gsap.to(transitionVideo, {
@@ -49,93 +52,93 @@ export default function Hero() {
       ease: "power2.inOut",
       onComplete: () => {
         if (mainVideoRef.current) {
-          mainVideoRef.current.src = getVideoSrc(upcomingVideoIndex)
-          mainVideoRef.current.load()
-          mainVideoRef.current.play()
+          mainVideoRef.current.src = getVideoSrc(upcomingVideoIndex);
+          mainVideoRef.current.load();
+          mainVideoRef.current.play();
         }
 
         if (videoFrame && transitionVideo) {
-          videoFrame.removeChild(transitionVideo)
+          videoFrame.removeChild(transitionVideo);
         }
 
-        setCurrentIndex(upcomingVideoIndex)
+        setCurrentIndex(upcomingVideoIndex);
 
         setTimeout(() => {
-          setIsTransitioning(false)
-        }, 100)
+          setIsTransitioning(false);
+        }, 100);
       },
-    })
+    });
 
     gsap.to(".preview-container", {
       opacity: 0,
       scale: 0.5,
       duration: 0.5,
       ease: "power2.inOut",
-    })
-  }
+    });
+  };
 
   const handleVideoLoad = () => {
-    setLoadedVideos((prev) => prev + 1)
-  }
+    setLoadedVideos((prev) => prev + 1);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (isLoading) {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }, 5000)
+    }, 5000);
 
-    return () => clearTimeout(timer)
-  }, [isLoading])
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   useEffect(() => {
     if (loadedVideos >= 2) {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [loadedVideos])
+  }, [loadedVideos]);
 
   useEffect(() => {
     const preloadVideos = async () => {
-      const videoPromises = []
+      const videoPromises = [];
 
       for (let i = 1; i <= totalVideos; i++) {
-        const videoSrc = getVideoSrc(i)
+        const videoSrc = getVideoSrc(i);
         const promise = new Promise<void>((resolve) => {
-          const video = document.createElement("video")
-          video.src = videoSrc
-          video.muted = true
-          video.preload = "auto"
+          const video = document.createElement("video");
+          video.src = videoSrc;
+          video.muted = true;
+          video.preload = "auto";
 
           video.onloadeddata = () => {
-            setLoadedVideos((prev) => prev + 1)
-            resolve()
-          }
+            setLoadedVideos((prev) => prev + 1);
+            resolve();
+          };
 
           video.onerror = () => {
-            resolve()
-          }
+            resolve();
+          };
 
-          video.load()
-        })
+          video.load();
+        });
 
-        videoPromises.push(promise)
+        videoPromises.push(promise);
       }
 
       try {
-        await Promise.all(videoPromises)
+        await Promise.all(videoPromises);
       } catch (error) {
-        console.error("Error preloading videos:", error)
+        console.error("Error preloading videos:", error);
       }
-    }
+    };
 
-    preloadVideos()
-  }, [])
+    preloadVideos();
+  }, []);
 
   useGSAP(() => {
     gsap.set("#video-frame", {
       clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
       borderRadius: "0% 0% 40% 10%",
-    })
+    });
 
     gsap.from("#video-frame", {
       clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
@@ -147,12 +150,12 @@ export default function Hero() {
         end: "bottom center",
         scrub: true,
       },
-    })
-  })
+    });
+  });
 
   const getVideoSrc = (index: number) => {
-    return `videos/hero-${index}.mp4`
-  }
+    return `videos/hero-${index}.mp4`;
+  };
 
   useEffect(() => {
     if (!isTransitioning) {
@@ -161,16 +164,16 @@ export default function Hero() {
         scale: 0.75,
         duration: 0.5,
         ease: "power2.inOut",
-      })
+      });
 
       if (previewVideoRef.current) {
-        const nextPreviewIndex = (currentIndex % totalVideos) + 1
-        previewVideoRef.current.src = getVideoSrc(nextPreviewIndex)
-        previewVideoRef.current.load()
-        previewVideoRef.current.play()
+        const nextPreviewIndex = (currentIndex % totalVideos) + 1;
+        previewVideoRef.current.src = getVideoSrc(nextPreviewIndex);
+        previewVideoRef.current.load();
+        previewVideoRef.current.play();
       }
     }
-  }, [isTransitioning, currentIndex])
+  }, [isTransitioning, currentIndex]);
 
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
@@ -180,7 +183,10 @@ export default function Hero() {
         </div>
       )}
 
-      <div id="video-frame" className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-bright-aqua">
+      <div
+        id="video-frame"
+        className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-bright-aqua"
+      >
         <video
           ref={mainVideoRef}
           src={getVideoSrc(currentIndex)}
@@ -198,7 +204,10 @@ export default function Hero() {
             <div
               onClick={handleMiniVideoClick}
               className="preview-container origin-center transition-all duration-500 ease-in-out hover:scale-100 hover:opacity-100"
-              style={{ opacity: isTransitioning ? 0 : 1, transform: `scale(${isTransitioning ? 0.5 : 0.75})` }}
+              style={{
+                opacity: isTransitioning ? 0 : 1,
+                transform: `scale(${isTransitioning ? 0.5 : 0.75})`,
+              }}
             >
               <video
                 ref={previewVideoRef}
@@ -242,5 +251,5 @@ export default function Hero() {
         <b>E</b>dge<b>R</b>unners
       </h1>
     </div>
-  )
+  );
 }

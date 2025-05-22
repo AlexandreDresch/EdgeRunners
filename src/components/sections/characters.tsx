@@ -1,5 +1,5 @@
-import BentoCard from "./bento-card";
-import { characters } from "../utils/characters";
+import BentoCard from "../bento-card";
+import { characters } from "../../utils/characters";
 
 export default function Characters() {
   const [firstCharacter, ...otherCharacters] = characters;
