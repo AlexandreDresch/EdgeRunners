@@ -49,11 +49,11 @@ body {
   }
 
   .about-subtext {
-    @apply absolute bottom-[-80dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-orbitron text-lg md:max-w-[34rem];
+    @apply absolute bottom-[-90dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-orbitron text-lg md:max-w-[34rem];
   }
 
   .about-image {
-    @apply absolute left-1/2 top-0 z-20 h-[70vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-md md:w-[30vw];
+    @apply absolute left-1/2 top-0 z-20 h-[70vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-md md:w-[35vw];
   }
 
   .animated-title {
@@ -82,6 +82,21 @@ body {
 
   .bento-title {
     @apply uppercase md:text-6xl text-4xl font-black font-tomorrow;
+  }
+
+  .story-img-container {
+    @apply relative md:h-dvh h-[90vh] w-full;
+    filter: url("#flt_tag");
+  }
+
+  .story-img-mask {
+    @apply absolute left-0 top-0 size-full overflow-hidden md:left-[20%] md:top-[-10%] md:size-4/5;
+    clip-path: polygon(4% 0, 83% 21%, 100% 73%, 0% 100%);
+  }
+
+  .story-img-content {
+    @apply absolute w-full md:h-dvh h-[50dvh] opacity-100 left-10 top-16 md:left-0 md:top-10 lg:left-[-300px] lg:top-[-100px];
+    transform: translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0) scale(1);
   }
 }
 

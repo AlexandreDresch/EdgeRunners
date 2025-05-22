@@ -42,7 +42,7 @@ export default function Characters() {
             ))}
           </div>
 
-          <div className="grid h-[135vh] grid-cols-2 grid-rows-5 gap-2 -mt-96">
+          <div className="grid h-[135vh] grid-cols-2 grid-rows-4 gap-2 -mt-96">
             {otherCharacters.slice(3).map((character, index) => (
               <div key={index} className={character.gridClass}>
                 <BentoCard
