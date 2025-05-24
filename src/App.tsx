@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import NightCity from "./components/sections/night-city";
 import Arasaka from "./components/sections/arasaka";
 import Militech from "./components/sections/militech";
+import Footer from "./components/footer";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Characters />
       <Arasaka />
       <Militech />
+      <Footer />
     </main>
   );
 }
