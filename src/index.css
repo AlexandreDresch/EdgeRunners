@@ -53,7 +53,7 @@ body {
   }
 
   .about-image {
-    @apply absolute left-1/2 top-0 z-20 h-[70vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-md md:w-[35vw];
+    @apply absolute left-1/2 top-0 z-20 h-[70vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-md md:w-6xl;
   }
 
   .animated-title {

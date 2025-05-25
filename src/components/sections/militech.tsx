@@ -102,9 +102,9 @@ export default function Militech() {
           </div>
         </div>
 
-        <div className="-mt-96 flex w-full justify-center">
+        <div className="-mt-96 flex w-full justify-center px-8">
           <div className="flex h-full w-fit flex-col items-center">
-            <p className="w-full max-w-7xl text-center font-tomorrow text-violet-50">
+            <p className="w-full max-w-7xl text-justify font-tomorrow text-violet-50">
               Militech is a global leader in military technology and
               manufacturing, specializing in advanced weaponry, cybernetic
               enhancements, and tactical solutions. With a reputation for

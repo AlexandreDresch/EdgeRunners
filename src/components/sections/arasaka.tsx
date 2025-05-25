@@ -102,9 +102,9 @@ export default function Arasaka() {
           </div>
         </div>
 
-        <div className="-mt-96 flex w-full justify-center">
+        <div className="-mt-96 flex w-full justify-center px-8">
           <div className="flex h-full w-fit flex-col items-center">
-            <p className="w-full max-w-7xl text-center font-tomorrow text-violet-50">
+            <p className="w-full max-w-7xl text-justify font-tomorrow text-violet-50">
               Arasaka Corporation is a megacorporation based in Japan, known for
               its powerful influence and control over the global economy. With
               its roots in the military and security sectors, Arasaka has
