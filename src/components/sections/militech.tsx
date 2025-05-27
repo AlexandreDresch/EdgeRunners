@@ -46,7 +46,7 @@ export default function Militech() {
   };
 
   return (
-    <div id="militech" className="min-h-dvh w-screen bg-black text-blue-50">
+    <section id="militech" className="min-h-dvh w-screen bg-black text-blue-50">
       <div className="flex size-full flex-col items-center pb-24">
         <p className="font-orbitron text-sm uppercase md:text-base">
           Night City's merciless weapons juggernaut.
@@ -114,6 +114,6 @@ export default function Militech() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

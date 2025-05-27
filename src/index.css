@@ -49,11 +49,11 @@ body {
   }
 
   .about-subtext {
-    @apply absolute bottom-[-90dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-orbitron text-lg md:max-w-[34rem];
+    @apply absolute bottom-[-92dvh] left-1/2 w-full max-w-96 -translate-x-1/2 text-center font-barlow text-lg md:max-w-[34rem];
   }
 
   .about-image {
-    @apply absolute left-1/2 top-0 z-20 h-[70vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-md md:w-6xl;
+    @apply absolute left-1/2 top-0 z-20 h-[70vh] w-96 origin-center -translate-x-1/2 overflow-hidden rounded-md md:w-5xl;
   }
 
   .animated-title {
@@ -73,11 +73,11 @@ body {
   }
 
   .bento-tilt_1 {
-    @apply relative col-span-2 overflow-hidden rounded-md transition-transform duration-300 ease-out;
+    @apply relative col-span-2 overflow-hidden transition-transform duration-300 ease-out;
   }
 
   .bento-tilt_2 {
-    @apply relative col-span-1 row-span-2 overflow-hidden rounded-md transition-transform duration-300 ease-out;
+    @apply relative col-span-1 row-span-2 overflow-hidden transition-transform duration-300 ease-out;
   }
 
   .bento-title {

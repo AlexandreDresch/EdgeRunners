@@ -74,7 +74,7 @@ export default function NightCity() {
             Megacorp towers flash holo-ads over smoggy streets. Edgerunners and
             gangers hustle past synth-food stalls.
           </p>
-          <p className="text-slate-600">
+          <p className="text-gray-500">
             Hovercars hum, sirens wail. Rain reflects the chrome-lit chaos of
             ambition and betrayal.
           </p>

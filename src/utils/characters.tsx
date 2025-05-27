@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 export interface Character {
+  id: number;
   src: string;
   title: ReactNode;
   description: string;
@@ -11,6 +12,7 @@ export interface Character {
 
 export const characters: Character[] = [
   {
+    id: 0,
     src: "/images/characters/david-martinez.png",
     title: (
       <>
@@ -19,10 +21,10 @@ export const characters: Character[] = [
     ),
     description:
       "David Martinez, a scrappy, hot-headed teen from Night City's rough Santo Domingo district, is fiercely loyal and driven to escape poverty. After a tragedy and gaining a military-grade Sandevistan implant for superhuman speed, he becomes an edgerunner, diving into the perilous world of Night City's mercenary underworld.",
-    gridClass:
-      "relative my-7 h-96 w-full overflow-hidden rounded-md md:h-[65vh]",
+    gridClass: "relative my-2 lg:my-7 h-96 w-full overflow-hidden md:h-[65vh]",
   },
   {
+    id: 1,
     src: "/images/characters/lucy.png",
     title: (
       <>
@@ -36,6 +38,7 @@ export const characters: Character[] = [
     gridClass: "row-span-1 md:col-span-1 md:row-span-2 border-hsla",
   },
   {
+    id: 2,
     src: "/images/characters/rebecca.png",
     title: (
       <>
@@ -44,9 +47,10 @@ export const characters: Character[] = [
     ),
     description:
       "Rebecca, a fierce and unpredictable member of David's crew, is known for her combat skills and loyalty. She has a playful yet dangerous personality, often using her dual pistols with deadly precision. Her bond with David deepens as they face the challenges of their dangerous lifestyle.",
-    gridClass: "bento-tilt_3 row-span-1 md:col-span-1 border-hsla",
+    gridClass: "row-span-1 md:col-span-1 border-hsla",
   },
   {
+    id: 3,
     src: "/images/characters/pilar.png",
     title: (
       <>
@@ -58,17 +62,20 @@ export const characters: Character[] = [
     gridClass: "row-span-1 md:col-span-1 border-hsla",
   },
   {
+    id: 4,
     src: "/images/characters/maine.png",
     title: (
       <>
         <b>M</b>aine
       </>
     ),
+    invert: true,
     description:
       "Maine, the leader of David's crew, is a seasoned edgerunner with a strong sense of loyalty and responsibility. He is known for his combat prowess and protective nature towards his team. Maine's character embodies the struggles of survival in Night City while trying to keep his crew safe.",
     gridClass: "bento-tilt_2 row-span-2 md:col-span-1 border-hsla",
   },
   {
+    id: 5,
     src: "/images/characters/dorio.png",
     title: (
       <>
@@ -80,6 +87,7 @@ export const characters: Character[] = [
     gridClass: "bento-tilt_2 row-span-1 md:col-span-1 border-hsla",
   },
   {
+    id: 6,
     src: "/images/characters/kiwi.png",
     title: (
       <>
@@ -88,11 +96,12 @@ export const characters: Character[] = [
     ),
     description:
       "Kiwi, a skilled netrunner and hacker, is a member of David's crew with a mysterious background. She is known for her intelligence and resourcefulness, often using her skills to navigate the digital landscape of Night City. Kiwi's character adds depth to the crew's dynamics as they face various challenges together.",
-    invert: true,
+    invert: false,
     gridClass:
       "bento-tilt_2 row-span-1 md:col-span-1 md:row-span-2 border-hsla",
   },
   {
+    id: 7,
     src: "/images/characters/falco.png",
     title: (
       <>

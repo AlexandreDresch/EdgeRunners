@@ -140,7 +140,7 @@ export default function BentoCard({
             <h2 className="mb-2 font-tomorrow text-2xl text-white md:text-3xl">
               {title}
             </h2>
-            <p className="max-w-md font-barlow text-sm text-white/70 md:text-base">
+            <p className="max-w-md font-barlow text-sm text-white/70 bg-black/40 lg:bg-transparent md:text-base">
               {description}
             </p>
           </div>
@@ -179,7 +179,7 @@ export default function BentoCard({
             <h2 className="mb-2 font-tomorrow text-2xl text-white md:text-3xl">
               {title}
             </h2>
-            <p className="max-w-md font-barlow text-sm text-white/70 md:text-base">
+            <p className="max-w-md font-barlow text-sm text-white/70 bg-black/40 lg:bg-transparent md:text-base">
               {description}
             </p>
           </div>

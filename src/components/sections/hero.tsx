@@ -175,6 +175,10 @@ export default function Hero() {
     }
   }, [isTransitioning, currentIndex]);
 
+  const handleNavigate = () => {
+    window.open("https://www.netflix.com/br-en/title/81054853", "_blank");
+  };
+
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
       {isLoading && (
@@ -243,6 +247,9 @@ export default function Hero() {
               title="Watch Now"
               rightIcon={<TiLocationArrow />}
               containerClass="!bg-yellow-300 flex-center gap-1"
+              onClick={() => {
+                handleNavigate();
+              }}
             />
           </div>
         </div>
