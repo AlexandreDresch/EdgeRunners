@@ -94,8 +94,8 @@ export default function LoadingScreen() {
             &nbsp; CAUTION, Do not turn off.
           </p>
 
-          <div className="ml-auto mt-36 flex items-end">
-            <div className="text-end text-xs text-neutral-400">
+          <div className="ml-auto md:mt-36 flex items-end">
+            <div className="text-end hidden md:block text-xs text-neutral-400">
               {visibleMessages.map((message, index) => (
                 <div key={index}>{message}</div>
               ))}
