@@ -1,54 +1,96 @@
-# React + TypeScript + Vite
+# EDGERUNNERS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![cover](.github/image.png?style=flat)
 
-Currently, two official plugins are available:
+A responsive and interactive fan page dedicated to the anime Cyberpunk: Edgerunners, built with React, TypeScript, GSAP, and Tailwind CSS. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+You can access the deployed version of this project [here](https://edge-runners-three.vercel.app).
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Dynamic Animations**: Powered by GSAP for smooth transitions.
+- **Mobile-First Design**: Built with Tailwind CSS.
+- **Blazing Fast**: Optimized with Vite.
+- **Docker Support**: Easy containerized deployment.
+- **Type Safety**: TypeScript integration.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting Started
+
+### Prerequisites
+
+- Node.js and npm (if running locally).
+- Docker installed (if running with Docker).
+
+## Running the Application
+
+You can run this application either with Docker or locally on your machine.
+
+### Option 1: Running with Docker
+
+1. Clone the repository:
+
+```bash
+  git clone https://github.com/AlexandreDresch/EdgeRunners.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Navigate to the project directory:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+  cd EdgeRunners
 ```
+
+3. Build and start the Docker containers:
+
+```bash
+  docker-compose up --build
+```
+
+4. Open your browser and navigate to:
+
+```bash
+  http://localhost:5173
+```
+
+5. To stop the Docker containers:
+
+```bash
+  docker-compose down
+```
+
+### Option 2: Running Locally (Without Docker)
+
+1. Clone the repository:
+
+```bash
+  git https://github.com/AlexandreDresch/EdgeRunners.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+  cd EdgeRunners
+```
+
+3. Install dependencies:
+
+```bash
+  npm install
+```
+
+4. Start the development server:
+
+```bash
+  npm run dev
+```
+
+5. Open your browser and navigate to:
+
+```bash
+  http://localhost:5173
+```
+
+## Scripts
+
+- **dev**: Starts the Vite development server.
+- **build**: Builds the project using TypeScript and Vite.
+- **preview**: Runs a Vite preview of the built app.
